@@ -47,31 +47,25 @@
 
 
 
-import React, { useRef, useEffect } from 'react';
-import { View } from 'react-native';
-import  {Canvas} from 'react-three-fiber';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { P3Primaries } from 'three';
+import React from 'react';
+import { View, Text } from 'react-native';
+import ModelView from 'react-native-gl-model-view';
 
-const Home = (props: any) => {
-  const modelRef = useRef<any>();
-
-  useEffect(() => {
-    const gltfLoader = new GLTFLoader();
-
-    gltfLoader.load('../../Asset/imge/Soldier.glb', (gltf:any) => {
-      const model = gltf.scene;
-      if (modelRef.current) {
-        modelRef.current.add(model);
-      }
-    });
-  }, []);
+const Home = () => {
   return (
     <View style={{ flex: 1 }}>
-      <Canvas style={{ flex: 1 }}>
-        <P3Primaries object={modelRef.current} />
-      </Canvas>
+      <Text>Home</Text>
+      <ModelView
+        // model={{
+        //   localSource: require('../../Asset/imge/Soldier.glb'),
+        // }}
+        texture={{
+          localSource: require('../../Asset/imge/1.png'),
+        }}
+        style={{ flex: 1, width: 300, height: 300, backgroundColor: 'transparent' }}
+      />
     </View>
-  )
-}
+  );
+};
+
 export default Home;
