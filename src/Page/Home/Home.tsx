@@ -46,24 +46,56 @@
 
 
 
+// import React from 'react';
+// import { Text, View } from 'react-native';
+// import ModelView from 'react-native-gl-model-view';
+
+// const Home = () => {
+//   return (
+//     <View style={{ flex: 1 }}>
+//       <ModelView
+//         model={{
+//           uri: require('../../Asset/imge/2.glb') // Replace with the actual path to your .glb file
+//         }}
+//         style={{ flex: 1 }}
+//       />
+//       <Text style={{color:'red'}}>Salam</Text>
+//     </View>
+//   );
+// };
+
+
+// export default Home;
+
 import React from 'react';
-import { Text, View } from 'react-native';
-import ModelView from 'react-native-gl-model-view';
+import { Canvas } from 'react-three-fiber';
+import { Suspense } from 'react';
+import { useGLTF } from '@react-three/drei';
+
+function Model(props: any) {
+  const { nodes, materials } = useGLTF('../../Asset/img/2.glb') as any;
+  return (
+    <group {...props} dispose={null}>
+      <mesh
+        geometry={nodes.Cube.geometry}
+        material={materials.Default_material}
+      />
+    </group>
+  );
+}
 
 const Home = () => {
   return (
-    <View style={{ flex: 1 }}>
-      <ModelView
-        model={{
-          uri: 'https://sketchfab.com/3d-models/soldier-672d070325134e3d9f8a7d2bf012183b', // Replace with the actual path to your .glb file
-        }}
-        style={{ flex: 1 }}
-      />
-      <Text style={{color:'red'}}>Salam</Text>
-    </View>
+    <Canvas>
+      <ambientLight />
+      <Suspense fallback={null}>
+        <Model />
+      </Suspense>
+    </Canvas>
   );
 };
 
-
 export default Home;
+
+
 
