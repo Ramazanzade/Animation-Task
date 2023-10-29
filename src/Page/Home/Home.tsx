@@ -46,26 +46,24 @@
 
 
 
-
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Text, View } from 'react-native';
 import ModelView from 'react-native-gl-model-view';
 
 const Home = () => {
   return (
     <View style={{ flex: 1 }}>
-      <Text>Home</Text>
       <ModelView
-        // model={{
-        //   localSource: require('../../Asset/imge/Soldier.glb'),
-        // }}
-        texture={{
-          localSource: require('../../Asset/imge/1.png'),
+        model={{
+          uri: 'https://sketchfab.com/3d-models/soldier-672d070325134e3d9f8a7d2bf012183b', // Replace with the actual path to your .glb file
         }}
-        style={{ flex: 1, width: 300, height: 300, backgroundColor: 'transparent' }}
+        style={{ flex: 1 }}
       />
+      <Text style={{color:'red'}}>Salam</Text>
     </View>
   );
 };
 
+
 export default Home;
+
