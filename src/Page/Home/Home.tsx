@@ -67,31 +67,32 @@
 
 // export default Home;
 
-import React from 'react';
-import { Canvas } from 'react-three-fiber';
+import React  from 'react';
+import { Canvas } from '@react-three/fiber';
 import { Suspense } from 'react';
-import { useGLTF } from '@react-three/drei';
-
-function Model(props: any) {
-  const { nodes, materials } = useGLTF('../../Asset/img/2.glb') as any;
-  return (
-    <group {...props} dispose={null}>
-      <mesh
-        geometry={nodes.Cube.geometry}
-        material={materials.Default_material}
-      />
-    </group>
-  );
-}
+import {useGLTF } from '@react-three/drei';
+import Model from './Home2';
+import useControls from 'r3f-native-orbitcontrols';
+import { View } from 'react-native';
 
 const Home = () => {
+  const [OrbitControls, events] = useControls();
+
   return (
-    <Canvas>
-      <ambientLight />
+   <View {...events}>
+     <Canvas>
+      <OrbitControls enablePan={false} />
+      <directionalLight position={[1, 0, 0]} args={['white', 5]} />
+      <directionalLight position={[-1, 0, 0]} args={['white', 5]} />
+      <directionalLight position={[0, 0, 1]} args={['white', 5]} />
+      <directionalLight position={[0, 0, -1]} args={['white', 5]} />
+      <directionalLight position={[0, 1, 0]} args={['white', 5]} />
+      <directionalLight position={[0, -1, 0]} args={['white', 5]} />
       <Suspense fallback={null}>
         <Model />
       </Suspense>
     </Canvas>
+   </View>
   );
 };
 
