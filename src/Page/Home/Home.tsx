@@ -36,67 +36,51 @@
 
 
 
+import React, { useEffect, useRef } from 'react';
+import { Canvas, useThree } from '@react-three/fiber';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
+const Model = () => {
+  const gltfPath = '../../Asset/imge/2.glb';
+  const gltfRef = useRef();
+  const { camera, gl } = useThree();
 
+  useEffect(() => {
+    const loader = new GLTFLoader();
+    loader.load(gltfPath, (gltf:any) => {
+      gltfRef.current = gltf.scene;
+    });
+  }, [gltfPath]);
 
+  useEffect(() => {
+    if (camera && gl) {
+      const controls = new OrbitControls(camera, gl.domElement);
+      controls.enableDamping = true;
+      controls.update();
 
-
-
-
-
-
-
-// import React from 'react';
-// import { Text, View } from 'react-native';
-// import ModelView from 'react-native-gl-model-view';
-
-// const Home = () => {
-//   return (
-//     <View style={{ flex: 1 }}>
-//       <ModelView
-//         model={{
-//           uri: require('../../Asset/imge/2.glb') // Replace with the actual path to your .glb file
-//         }}
-//         style={{ flex: 1 }}
-//       />
-//       <Text style={{color:'red'}}>Salam</Text>
-//     </View>
-//   );
-// };
-
-
-// export default Home;
-
-import React  from 'react';
-import { Canvas } from '@react-three/fiber';
-import { Suspense } from 'react';
-import {useGLTF } from '@react-three/drei';
-import Model from './Home2';
-import useControls from 'r3f-native-orbitcontrols';
-import { View } from 'react-native';
-
-const Home = () => {
-  const [OrbitControls, events] = useControls();
+      return () => {
+        controls.dispose();
+      };
+    }
+  }, [camera, gl]);
 
   return (
-   <View {...events}>
-     <Canvas>
-      <OrbitControls enablePan={false} />
-      <directionalLight position={[1, 0, 0]} args={['white', 5]} />
-      <directionalLight position={[-1, 0, 0]} args={['white', 5]} />
-      <directionalLight position={[0, 0, 1]} args={['white', 5]} />
-      <directionalLight position={[0, 0, -1]} args={['white', 5]} />
-      <directionalLight position={[0, 1, 0]} args={['white', 5]} />
-      <directionalLight position={[0, -1, 0]} args={['white', 5]} />
-      <Suspense fallback={null}>
-        <Model />
-      </Suspense>
+    <group>
+      {gltfRef.current && <primitive object={gltfRef.current} />}
+    </group>
+  );
+};
+
+const Home = () => {
+  return (
+    <Canvas>
+      <ambientLight intensity={0.5} />
+      <pointLight position={[10, 10, 10]} />
+      <Model />
     </Canvas>
-   </View>
   );
 };
 
 export default Home;
-
-
 

@@ -2,6 +2,8 @@
 import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import {GLTF} from 'three-stdlib';
+import { GLView } from 'expo-gl';
+
 type GLTFResult = GLTF & {
   nodes: {
     eagle1: THREE.Mesh;
